@@ -1,0 +1,11 @@
+Usage:
+   ./watch_haml.py
+
+Watches current directory and, if filename.haml is modified, runs
+
+haml filename.haml filename.html
+
+Based on autocompile.py example from
+https://github.com/seb-m/pyinotify/
+
+Requires pyinotify.
