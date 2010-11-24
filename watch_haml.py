@@ -14,6 +14,7 @@
 
 import subprocess
 import sys
+import os
 import pyinotify
 
 
@@ -36,5 +37,21 @@ def auto_haml_to_html():
     print '==> Start monitoring %s (type c^c to exit)' % path
     notifier.loop()
 
+def check_that_html_exist():
+    ignore = ['.git','.hg']
+    for root, dirs, files in os.walk('.'):
+        if all(not ig in root for ig in ignore):
+            print root
+            for file in files:
+                if file.endswith('.haml'):
+                    src = os.path.join(root, file)
+                    dst = os.path.join(root, file[:-5]+".html")
+                    if not os.path.exists(dst):
+                        print dst
+                        print "does not exist"
+                        cmd = 'haml %s %s' % (src, dst)
+                        subprocess.call(cmd.split(' '))
+
 if __name__ == '__main__':
+    check_that_html_exist()
     auto_haml_to_html()
